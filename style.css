@@ -1,0 +1,12 @@
+th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    width:100px;
+    height:100px;
+}
+
+.boardCells {
+    height: 100px;
+    width: 100px;
+    opacity: 0;
+}
