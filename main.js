@@ -20,16 +20,7 @@ const gameBoard = (()=>{
                 const currentCell = document.createElement('th');
                 let id = i.toString() + 'z' + j.toString();
                 const currentCellButton = document.createElement('button');
-                // css selector
-                currentCellButton.style.backgroundColor = "white";
-                currentCellButton.style.color = "black";
-                currentCellButton.style.opacity = 1;
-                currentCellButton.style.width = "100%";
-                currentCellButton.style.height = "100%";
-                currentCellButton.style.border = "0px";
-                currentCellButton.style.borderRadius = "0px";
-                currentCellButton.style.fontSize = "50px";
-                //
+                currentCellButton.className = 'cellButtons';
                 currentCellButton.id = id;
                 currentCellButton.textContent = _grid[i * sz + j];
                 currentCellButton.addEventListener ('click', () => {
@@ -50,7 +41,6 @@ const gameBoard = (()=>{
     
     const setCell = (x, y, val) => {
         _grid[x * sz + y] = val;
-        console.log(`${(x * sz + y)} ${_grid[0]} ${_grid[x *sz + y]}`);
         _renderCell(x, y, val);  // Apply the new value to the rendered grid
     }
     
@@ -84,7 +74,7 @@ const gameBoard = (()=>{
         // check the other diagonal
         cnt = 0;
         for(i = 0 ; i < sz ; i++) 
-        cnt += (symbol == _grid[i * sz + (2 - i)]);
+        cnt += (symbol == _grid[i * sz + (sz - 1 - i)]);
         if (cnt == sz) 
         return true;
         
@@ -128,11 +118,15 @@ function playRound (x, y) {
     gameBoard.setCell(parseInt(x), parseInt(y), player[currentPlayer].symbol);
     if (gameBoard.checkWinner(player[currentPlayer].symbol)){
         setTimeout(function(){alert(player[currentPlayer].name + ' is the winner!!!!')}, 100);
-        
+        setTimeout(function(){location.reload()}, 1000);  
+    } else {
+        currentPlayer ^= 1;
     }
-    currentPlayer ^= 1;
 }
 
+function start () {
+    const startButton = document.querySelector('#startGameButton');
+    startButton.addEventListener('click', play);
+}
 
-const startButton = document.querySelector('#startGameButton');
-startButton.addEventListener('click', play);
+start();
